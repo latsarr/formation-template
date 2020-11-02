@@ -4,6 +4,8 @@ Class Formation.Obj.Formation Extends (%SerialObject, %XML.Adaptor)
 
 Property Nom As %String;
 
+Property Prenom As %String;
+
 Property Salle As %String;
 
 Storage Default
@@ -14,6 +16,9 @@ Storage Default
 </Value>
 <Value name="2">
 <Value>Salle</Value>
+</Value>
+<Value name="3">
+<Value>Prenom</Value>
 </Value>
 </Data>
 <State>FormationState</State>

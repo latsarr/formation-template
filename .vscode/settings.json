@@ -4,6 +4,10 @@
         "Dockerfile*": "dockerfile",
         "iris.script": "objectscript"
       },
+      // ajout possibilité d'editer cote serveur
+      "objectscript.serverSideEditing": true,
+      // activation de la compilation en cascade
+      "objectscript.compileFlags": "cukb",
     "objectscript.conn" :{
       "ns": "IRISAPP",
       "username": "SuperUser",
@@ -11,6 +15,35 @@
       "host": "localhost",
       "port": 52775,
       "active": true,
+    },
+    "intersystems.servers": {
+
+
+      "default~iris": {
+        "webServer": {
+          "scheme": "http",
+          "host": "127.0.0.1",
+          "port": 52773
+        },
+        "description": "Connection to local InterSystems IRIS™ installed with default settings."
+      },
+      "default~cache": {
+        "webServer": {
+          "scheme": "http",
+          "host": "127.0.0.1",
+          "port": 57772
+        },
+        "description": "Connection to local InterSystems Caché installed with default settings."
+      },
+      "default~ensemble": {
+        "webServer": {
+          "scheme": "http",
+          "host": "127.0.0.1",
+          "port": 57772
+        },
+        "description": "Connection to local InterSystems Ensemble installed with default settings."
+      },
+      "/default": "default~iris"
     }
 
 }

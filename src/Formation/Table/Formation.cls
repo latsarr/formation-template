@@ -3,6 +3,8 @@ Class Formation.Table.Formation Extends %Persistent
 
 Property Name As %String;
 
+Property LastName As %String;
+
 Property Salle As %String;
 
 Storage Default
@@ -16,6 +18,9 @@ Storage Default
 </Value>
 <Value name="3">
 <Value>Salle</Value>
+</Value>
+<Value name="4">
+<Value>LastName</Value>
 </Value>
 </Data>
 <DataLocation>^Formation.Table.FormationD</DataLocation>

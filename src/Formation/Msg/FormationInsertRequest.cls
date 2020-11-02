@@ -1,9 +1,9 @@
 Class Formation.Msg.FormationInsertRequest Extends Ens.Request
 {
 
-Property Formation As Formation.Obj.Formation;
-
 // utilisation de l'obj dans le message
+
+Property Formation As Formation.Obj.Formation;
 
 Storage Default
 {
