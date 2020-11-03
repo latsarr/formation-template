@@ -10,9 +10,10 @@ Parameter TREATEMPTYREPEATINGFIELDASNULL = 0;
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
 <transform sourceClass='Formation.Msg.FormationSelectByNameResponse' targetClass='Formation.Msg.FormationInsertRequest' create='new' language='objectscript' >
-<assign value='source.ListeFormation.(1).Nom' property='target.Formation.Nom' action='set' />
-<assign value='source.ListeFormation.(1).Prenom' property='target.Formation.Prenom' action='set' />
-<assign value='source.ListeFormation.(1).Salle' property='target.Formation.Salle' action='set' />
+<foreach property='source.ListeFormation()' key='k1' >
+<assign value='source.ListeFormation.(k1).Nom' property='target.Formation.Nom' action='set' />
+<assign value='source.ListeFormation.(k1).Salle' property='target.Formation.Salle' action='set' />
+</foreach>
 </transform>
 }
 
