@@ -32,6 +32,80 @@ Method InsertLocalBDD(pRequest As Formation.Msg.FormationInsertRequest, Output p
 	Quit tStatus
 }
 
+/// Les methodes suivantes on été créé ici pour des raisons de pb de connexion RemoteDBB
+Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
+{
+	// initialisation à OK si erreur autre chase dans le catch
+	set tStatus = $$$OK
+
+	set pResponse = ##class(Formation.Msg.FormationSelectAllResponse).%New() // ## synthxe pour objectscript pour appeler une classe
+	
+	set pResponse.ListeFormation = ##class(%Library.ListOfObjects).%New()
+	
+	try
+	{
+	set tselectAll = "SELECT * FROM Formation_Table.Formation"
+	SET tStatement = ##class(%SQL.Statement).%New()
+    SET qStatus = tStatement.%Prepare(tselectAll)
+	SET rset = tStatement.%Execute()
+	while rset.%Next(){
+/// creation d'objet temporaire à peupler
+	set tFormation = ##class(Formation.Obj.Formation).%New()
+	set tFormation.Nom = rset.%Get("Name")
+	set tFormation.Salle = rset.%Get("Salle")
+
+	do pResponse.ListeFormation.Insert(tFormation)
+
+		$$$TRACE("Id "_rset.%Get("ID"))
+	}
+
+		set pResponse.Status = 1
+	}
+	catch exp
+	{
+		Set tStatus = exp.AsStatus()
+		set pResponse.Status = 0
+	}
+		Quit tStatus
+}
+
+Method SelectByNameLocalBDD(pRequest As Formation.Msg.FormationSelectByNameRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
+{
+	// initialisation à OK si erreur autre chase dans le catch
+	set tStatus = $$$OK
+
+	set pResponse = ##class(Formation.Msg.FormationSelectByNameResponse).%New() // ## synthxe pour objectscript pour appeler une classe
+	
+	set pResponse.ListeFormation = ##class(%Library.ListOfObjects).%New()
+	
+	try
+	{
+	set tselectByName= "SELECT * FROM Formation_Table.Formation where Name='formation3'"
+	SET tStatement = ##class(%SQL.Statement).%New()
+    SET qStatus = tStatement.%Prepare(tselectByName)
+	SET rset = tStatement.%Execute()
+	while rset.%Next(){
+/// creation d'objet temporaire à peupler
+	set tFormation = ##class(Formation.Obj.Formation).%New()
+	set tFormation.Nom = rset.%Get("Name")
+	set tFormation.Salle = rset.%Get("Salle")
+
+	do pResponse.ListeFormation.Insert(tFormation)
+
+		$$$TRACE("Id "_rset.%Get("ID"))
+		$$$TRACE("Name "_rset.%Get("Name"))
+	}
+
+		set pResponse.Status = 1
+	}
+	catch exp
+	{
+		Set tStatus = exp.AsStatus()
+		set pResponse.Status = 0
+	}
+		Quit tStatus
+}
+
 // sert à mapper le message vers la méthode InsertLocalBDD
 
 XData MessageMap
@@ -40,6 +114,13 @@ XData MessageMap
 	<MapItem MessageType="Formation.Msg.FormationInsertRequest"> 
 		<Method>InsertLocalBDD</Method>
 	</MapItem>
+		<MapItem MessageType="Formation.Msg.FormationSelectAllRequest"> 
+		<Method>SelectAllLocalBDD</Method>
+	</MapItem>
+		<MapItem MessageType="Formation.Msg.FormationSelectByNameRequest"> 
+		<Method>SelectByNameLocalBDD</Method>
+	</MapItem>
+	
 </MapItems>
 }
 
