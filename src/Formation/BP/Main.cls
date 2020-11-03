@@ -2,6 +2,11 @@
 Class Formation.BP.Main Extends Ens.BusinessProcessBPL
 {
 
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
+
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
@@ -9,11 +14,11 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <context>
 <property name='tMessageInsert' type='Formation.Msg.FormationInsertRequest' instantiate='0' />
 </context>
-<sequence xend='200' yend='450' >
+<sequence xend='200' yend='550' >
 <transform name='Utilisation de la transformation' class='Formation.DT.CSVtoInsertMessage' source='request' target='context.tMessageInsert' xpos='200' ypos='250' >
 <annotation><![CDATA[Transform avec request (input) et context.tMessageInsert (output)]]></annotation>
 </transform>
-<call name='Appel InsertBDD' target='LocalBDD' async='0' xpos='200' ypos='350' >
+<call name='Appel InsertBDD local' target='LocalBDD' async='0' xpos='200' ypos='350' >
 <annotation><![CDATA[Appel Operation LocalBDD avec le message formation InsertRequest
 callrequest (input) et response (output)]]></annotation>
 <request type='Formation.Msg.FormationInsertRequest' >
@@ -23,13 +28,16 @@ callrequest (input) et response (output)]]></annotation>
 <assign property="response.Status" value="callresponse.Status" action="set" />
 </response>
 </call>
+<call name='Appel InsertBDD externe' target='RemoteBDD' async='0' xpos='200' ypos='450' >
+<request type='Formation.Msg.FormationInsertRequest' >
+<assign property="callrequest" value="context.tMessageInsert" action="set" />
+</request>
+<response type='Formation.Msg.FormationInsertResponse' >
+<assign property="response.Status" value="callresponse.Status" action="set" />
+</response>
+</call>
 </sequence>
 </process>
-}
-
-Storage Default
-{
-<Type>%Storage.Persistent</Type>
 }
 
 }

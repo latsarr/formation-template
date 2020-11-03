@@ -32,22 +32,22 @@ Method InsertLocalBDD(pRequest As Formation.Msg.FormationInsertRequest, Output p
 	Quit tStatus
 }
 
-/// Les methodes suivantes on été créé ici pour des raisons de pb de connexion RemoteDBB
+/// Les methodes suivantes on été créées ici pour des raisons de pb de connexion RemoteDBB
 Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
 {
 	// initialisation à OK si erreur autre chase dans le catch
 	set tStatus = $$$OK
-
 	set pResponse = ##class(Formation.Msg.FormationSelectAllResponse).%New() // ## synthxe pour objectscript pour appeler une classe
 	
 	set pResponse.ListeFormation = ##class(%Library.ListOfObjects).%New()
 	
 	try
 	{
-	set tselectAll = "SELECT * FROM Formation_Table.Formation"
+	set tselectAll = "SELECT * FROM Formation.Table.Formation"
 	SET tStatement = ##class(%SQL.Statement).%New()
     SET qStatus = tStatement.%Prepare(tselectAll)
 	SET rset = tStatement.%Execute()
+	$$$TRACE("Nombre Obj selectionne "_rset.%Next())
 	while rset.%Next(){
 /// creation d'objet temporaire à peupler
 	set tFormation = ##class(Formation.Obj.Formation).%New()
@@ -57,7 +57,10 @@ Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Ou
 	do pResponse.ListeFormation.Insert(tFormation)
 
 		$$$TRACE("Id "_rset.%Get("ID"))
+
 	}
+		$$$TRACE("Nombre Obj selectionne "_rset.%Next())
+
 
 		set pResponse.Status = 1
 	}
