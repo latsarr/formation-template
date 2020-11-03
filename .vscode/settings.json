@@ -4,7 +4,7 @@
         "Dockerfile*": "dockerfile",
         "iris.script": "objectscript"
       },
-      // ajout possibilité d'editer cote serveur
+      // ajout possibilité d'editer côte serveur
       "objectscript.serverSideEditing": true,
       // activation de la compilation en cascade
       "objectscript.compileFlags": "cukb",
@@ -17,6 +17,7 @@
       "active": true,
     },
     "intersystems.servers": {
+
 
 
       "default~iris": {
