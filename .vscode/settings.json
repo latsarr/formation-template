@@ -45,6 +45,18 @@
         "description": "Connection to local InterSystems Ensemble installed with default settings."
       },
       "/default": "default~iris"
-    }
+    },
+    "sqltools.connections": [
+      {
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 5432,
+        "driver": "PostgreSQL",
+        "name": "Formation",
+        "database": "DemoData",
+        "username": "DemoData",
+        "password": "DemoData"
+      }
+    ]
 
 }

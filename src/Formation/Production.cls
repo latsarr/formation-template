@@ -6,9 +6,7 @@ XData ProductionDefinition
 <Production Name="Formation.Production" TestingEnabled="true" LogGeneralTraceEvents="false">
   <Description></Description>
   <ActorPoolSize>2</ActorPoolSize>
-  <Item Name="LocalBDD" Category="" ClassName="Formation.BO.LocalBDD" PoolSize="1" Enabled="true" Foreground="false" Comment="Quand on modifie une classe BO il recharger l&apos;instance de l&apos;opération pour que le nouvel objet prenne en compte la classe nouvellement modifiée
-
-A faire unitairement sur l opération concernée" LogTraceEvents="false" Schedule="">
+  <Item Name="LocalBDD" Category="" ClassName="Formation.BO.LocalBDD" PoolSize="1" Enabled="true" Foreground="false" Comment="Quand on modifie une classe BO il recharger l&apos;instance de l&apos;opération pour que le nouvel objet prenne en compte la classe nouvellement modifiée  A faire unitairement sur l opération concernée" LogTraceEvents="false" Schedule="">
   </Item>
   <Item Name="Main" Category="" ClassName="Formation.BP.Main" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
@@ -27,6 +25,16 @@ A faire unitairement sur l opération concernée" LogTraceEvents="false" Schedul
     <Setting Target="Host" Name="TargetConfigNames">Batch</Setting>
     <Setting Target="Adapter" Name="FilePath">/tmp/iris/misc/</Setting>
     <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
+  </Item>
+  <Item Name="RemoteBDD" Category="" ClassName="Formation.BO.RemoteBDD" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="DSN">jdbc:postgresql://db:5432/DemoData</Setting>
+    <Setting Target="Adapter" Name="Credentials">DemoData</Setting>
+    <Setting Target="Adapter" Name="JDBCClasspath">/tmp/iris/postgresql-42.2.14.jar</Setting>
+    <Setting Target="Adapter" Name="JDBCDriver">org.postgresql.Driver</Setting>
+    <Setting Target="Adapter" Name="StayConnected">10</Setting>
+    <Setting Target="Adapter" Name="JGService">JG</Setting>
+  </Item>
+  <Item Name="JG" Category="" ClassName="EnsLib.JavaGateway.Service" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
 </Production>
 }

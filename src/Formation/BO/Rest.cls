@@ -1,23 +1,27 @@
+Include EnsSQLTypes
+
 Class Formation.BO.RemoteBDD Extends Ens.BusinessOperation
 {
 
-Parameter ADAPTER = "EnsLib.HTTP.OutboundAdapter";
+Parameter ADAPTER = "EnsLib.SQL.OutboundAdapter";
 
-Property Adapter As EnsLib.HTTP.OutboundAdapter;
+Property Adapter As EnsLib.SQL.OutboundAdapter;
 
 Parameter INVOCATION = "Queue";
 
-Method GetInfo(pRequest As Ens.StringRequest, Output pResponse As Ens.StringResponse) As %Status
+Method InsertRemoteBDD(pRequest As Formation.Msg.FormationInsertRequest, Output pResponse As Ens.StringResponse) As %Status
 {
 	set tStatus = $$$OK
 	
 	try{
-					
-        set tURL = ""
-        $$$ThrowOnError(..Adapter.GetURL(tURL,.tHttpResponse))
-
-        Set pResponse = ##class(Ens.StringContainer).%New({}.%FromJSON(tHttpResponse.Data).%ToJSON())
-
+/// creation de la reponse
+		set pResponse = ##class(Ens.StringResponse).%New()
+/// creation de la request
+		set ^inc = $I(^inc) // incremation de l'id
+		// ? parametres
+		set tInsertSql = "INSERT INTO public.formation (id, nom, salle) VALUES(?, ?, ?)"
+/// appel methode executeUpdate de la  classe EnsLib.SQL.OutboundAdapter
+		$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,tInsertSql,^inc,pRequest.Formation.Nom,pRequest.Formation.Salle))
 		
 	}
 	catch exp
@@ -31,8 +35,8 @@ Method GetInfo(pRequest As Ens.StringRequest, Output pResponse As Ens.StringResp
 XData MessageMap
 {
 <MapItems>
-	<MapItem MessageType="Ens.StringRequest"> 
-		<Method>GetInfo</Method>
+	<MapItem MessageType="Formation.Msg.FormationInsertRequest"> 
+		<Method>InsertRemoteBDD</Method>
 	</MapItem>
 </MapItems>
 }
