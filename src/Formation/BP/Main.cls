@@ -29,6 +29,8 @@ callrequest (input) et response (output)]]></annotation>
 </response>
 </call>
 <call name='Appel InsertBDD externe' target='RemoteBDD' async='0' xpos='200' ypos='450' >
+<annotation><![CDATA[Appel Operation BDD externe avec le message formation InsertRequest
+callrequest (input) et response (output)]]></annotation>
 <request type='Formation.Msg.FormationInsertRequest' >
 <assign property="callrequest" value="context.tMessageInsert" action="set" />
 </request>
