@@ -109,7 +109,7 @@ Method SelectByNameLocalBDD(pRequest As Formation.Msg.FormationSelectByNameReque
 		Quit tStatus
 }
 
-// sert à mapper le message vers la méthode InsertLocalBDD
+// sert à mapper le message vers les méthode InsertLocalBDD, SelectAllLocalBDD SelectByNameLocalBDD
 
 XData MessageMap
 {

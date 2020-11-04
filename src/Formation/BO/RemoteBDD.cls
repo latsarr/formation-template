@@ -92,6 +92,8 @@ Method SelectByNameRemoteBDD(pRequest As Ens.StringRequest, Output pResponse As 
 	Quit tStatus
 }
 
+// sert à mapper les message vers les methodes de la classe
+
 XData MessageMap
 {
 <MapItems>

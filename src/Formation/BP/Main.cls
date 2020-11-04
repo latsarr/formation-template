@@ -12,17 +12,22 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
 <process language='objectscript' request='Formation.RM.CSV.Record' response='Formation.Msg.FormationInsertResponse' height='2000' width='2000' >
 <context>
-<property name='tMessageInsert' type='Formation.Msg.FormationInsertRequest' instantiate='0' />
+<property name='tMessageInsertToLocalBDD' type='Formation.Msg.FormationInsertRequest' instantiate='0' >
+<annotation><![CDATA[ligne à insérer (obj)]]></annotation>
+</property>
+<property name='tMessageInsertToRemoteBDD' type='Formation.Msg.FormationInsertRequest' instantiate='0' />
 </context>
 <sequence xend='200' yend='550' >
-<transform name='Utilisation de la transformation' class='Formation.DT.CSVtoInsertMessage' source='request' target='context.tMessageInsert' xpos='200' ypos='250' >
-<annotation><![CDATA[Transform avec request (input) et context.tMessageInsert (output)]]></annotation>
+<transform name='Utilisation de la transformation' class='Formation.DT.CSVtoInsertMessage' source='request' target='context.tMessageToInsert' xpos='200' ypos='250' >
+<annotation><![CDATA[Mapping de la request de la classe Formation.RM.CSV.Record (source) avec obj de la classe Formation.Msg.FormationInsertRequest context.tMessageInsert (cible)]]></annotation>
 </transform>
 <call name='Appel InsertBDD local' target='LocalBDD' async='0' xpos='200' ypos='350' >
 <annotation><![CDATA[Appel Operation LocalBDD avec le message formation InsertRequest
 callrequest (input) et response (output)]]></annotation>
 <request type='Formation.Msg.FormationInsertRequest' >
-<assign property="callrequest" value="context.tMessageInsert" action="set" />
+<assign property="callrequest" value="context.tMessageInsertToLocalBDD" action="set" >
+<annotation><![CDATA[Appel du message sorti de la transform]]></annotation>
+</assign>
 </request>
 <response type='Formation.Msg.FormationInsertResponse' >
 <assign property="response.Status" value="callresponse.Status" action="set" />
@@ -32,7 +37,9 @@ callrequest (input) et response (output)]]></annotation>
 <annotation><![CDATA[Appel Operation BDD externe avec le message formation InsertRequest
 callrequest (input) et response (output)]]></annotation>
 <request type='Formation.Msg.FormationInsertRequest' >
-<assign property="callrequest" value="context.tMessageInsert" action="set" />
+<assign property="callrequest" value="context.tMessageInsertToRemoteBDD" action="set" >
+<annotation><![CDATA[Appel du message sorti de la transform]]></annotation>
+</assign>
 </request>
 <response type='Formation.Msg.FormationInsertResponse' >
 <assign property="response.Status" value="callresponse.Status" action="set" />

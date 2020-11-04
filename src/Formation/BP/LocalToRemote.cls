@@ -12,7 +12,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <parameter name='MAXLEN'  value='50' />
 </parameters>
 </property>
-<property name='tMessageInsert' type='Formation.Obj.Formation' instantiate='0' />
+<property name='tMessageInsertToRemoteBDD' type='Formation.Obj.Formation' instantiate='0' />
 <property name='tListFormation' type='Formation.Obj.Formation' collection='list' instantiate='0' />
 <property name='tCurrentFormation' type='Formation.Obj.Formation' instantiate='0' />
 </context>
@@ -23,18 +23,21 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <assign property="context.tListFormation" value="callresponse.ListeFormation" action="set" />
 </response>
 </call>
-<foreach name='pour chaque ligne' property='context.tListFormation' key='context.key' xpos='200' ypos='350' xend='200' yend='550' >
+<foreach name='pour chaque ligne' property='context.tListFormation' key='context.key' xpos='200' ypos='350' xend='200' yend='650' >
 <annotation><![CDATA[Parcours de la liste context.tListFormation (issue de la requette selectbyname)]]></annotation>
 <assign name="affectation formation en cours" property="context.tCurrentFormation" value="context.tListFormation.GetAt(context.key)" action="set" xpos='200' ypos='250' >
 <annotation><![CDATA[Affectation de la valeur courante de la liste au context.tCurrentFormation]]></annotation>
 </assign>
-<transform name='transfo' class='Formation.DT.LocalDBBInsertToRemoteDBB' source='context.tCurrentFormation' target='context.tMessageInsert' xpos='200' ypos='350' >
+<transform name='transfo' class='Formation.DT.LocalDBBInsertToRemoteDBB' source='context.tCurrentFormation' target='context.tMessageInsertToRemoteBDD' xpos='200' ypos='350' >
 <annotation><![CDATA[transforme le la valeur courante context.tCurrentFormation pour insersion à la cible]]></annotation>
 </transform>
-<call name='Appel InsertBDD externe' target='RemoteBDD' async='0' xpos='200' ypos='450' >
+<trace value='"Objet courant "_context.tMessageInsertToRemoteBDD.GetAt(context.key).Nom' xpos='200' ypos='450' disabled="true">
+<annotation><![CDATA[affichage obj]]></annotation>
+</trace>
+<call name='Appel InsertBDD externe' target='RemoteBDD' async='0' xpos='200' ypos='550' >
 <annotation><![CDATA[Insertion de la valeur courante context.tCurrentFormation à la bdd externe]]></annotation>
 <request type='Formation.Msg.FormationInsertRequest' >
-<assign property="callrequest.Formation" value="context.tMessageInsert" action="set" />
+<assign property="callrequest.Formation" value="context.tMessageInsertToRemoteBDD" action="set" />
 </request>
 <response type='Formation.Msg.FormationInsertResponse' >
 <assign property="response.Status" value="callresponse.Status" action="set" />
