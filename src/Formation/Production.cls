@@ -18,7 +18,7 @@ XData ProductionDefinition
   </Item>
   <Item Name="Batch" Category="" ClassName="Formation.BP.Batch" PoolSize="1" Enabled="true" Foreground="false" Comment="Traitement en boucle Utilisant le main pour inserer dans les 2 bases locales et remote" LogTraceEvents="true" Schedule="">
   </Item>
-  <Item Name="BatchFileService" Category="" ClassName="EnsLib.RecordMap.Service.BatchFileService" PoolSize="1" Enabled="true" Foreground="false" Comment="Acheminement en lot de la source csv vers le batch" LogTraceEvents="false" Schedule="">
+  <Item Name="BatchFileService" Category="" ClassName="EnsLib.RecordMap.Service.BatchFileService" PoolSize="1" Enabled="false" Foreground="false" Comment="Acheminement en lot de la source csv vers le batch" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BatchClass">Formation.RM.CSV.Batch</Setting>
     <Setting Target="Host" Name="BatchHandling">Whole</Setting>
     <Setting Target="Host" Name="RecordMap">Formation.RM.CSV</Setting>
