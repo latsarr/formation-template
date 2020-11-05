@@ -2,6 +2,11 @@
 Class Formation.BP.LocalToRemote Extends Ens.BusinessProcessBPL
 {
 
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
+
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
@@ -16,8 +21,9 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <property name='tListFormation' type='Formation.Obj.Formation' collection='list' instantiate='0' />
 <property name='tCurrentFormation' type='Formation.Obj.Formation' instantiate='0' />
 </context>
-<sequence xend='200' yend='450' >
-<call name='appel local bdd' target='LocalBDD' async='0' xpos='200' ypos='250' >
+<sequence xend='200' yend='550' >
+<trace name='Nom de objet entrant dans le BP' value='request.%ClassName(1)' xpos='200' ypos='250' />
+<call name='appel local bdd' target='LocalBDD' async='0' xpos='200' ypos='350' >
 <request type='Formation.Msg.FormationSelectByNameRequest' >
 <assign property="callrequest.Nom" value="request.Nom" action="set" />
 </request>
@@ -25,7 +31,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <assign property="context.tListFormation" value="callresponse.ListeFormation" action="set" />
 </response>
 </call>
-<foreach name='pour chaque ligne' property='context.tListFormation' key='context.key' xpos='200' ypos='350' xend='200' yend='650' >
+<foreach name='pour chaque ligne' property='context.tListFormation' key='context.key' xpos='200' ypos='450' xend='200' yend='650' >
 <annotation><![CDATA[Parcours de la liste context.tListFormation (issue de la requette selectbyname)]]></annotation>
 <assign name="affectation formation en cours" property="context.tCurrentFormation" value="context.tListFormation.GetAt(context.key)" action="set" xpos='200' ypos='250' >
 <annotation><![CDATA[Affectation de la valeur courante de la liste au context.tCurrentFormation]]></annotation>
@@ -48,11 +54,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </foreach>
 </sequence>
 </process>
-}
-
-Storage Default
-{
-<Type>%Storage.Persistent</Type>
 }
 
 }

@@ -2,6 +2,11 @@
 Class Formation.BP.LocalToRemoteLot Extends Ens.BusinessProcessBPL
 {
 
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
+
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
@@ -12,9 +17,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <parameter name='MAXLEN'  value='50' />
 </parameters>
 </property>
-<property name='tMessageInsertToRemoteBDD' type='Formation.Obj.Formation' instantiate='0' />
 <property name='tListFormation' type='Formation.Obj.Formation' collection='list' instantiate='0' />
-<property name='tCurrentFormation' type='Formation.Obj.Formation' instantiate='0' />
 </context>
 <sequence xend='200' yend='450' >
 <call name='appel local bdd' target='LocalBDD' async='0' xpos='200' ypos='250' >
@@ -25,7 +28,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <assign property="context.tListFormation" value="callresponse.ListeFormation" action="set" />
 </response>
 </call>
-<call name='Appel InsertBDD externe par lot' target='RemoteBDD' async='0' xpos='200' ypos='550' >
+<call name='Appel InsertBDD externe par lot' target='RemoteBDD' async='0' xpos='200' ypos='350' >
 <annotation><![CDATA[Insertion de la valeur courante context.tCurrentFormation à la bdd externe]]></annotation>
 <request type='Formation.Msg.FormationInsertAllRequest' >
 <assign property="callrequest.ListOfAllObjFormation" value="context.tListFormation" action="set" />
@@ -36,11 +39,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </call>
 </sequence>
 </process>
-}
-
-Storage Default
-{
-<Type>%Storage.Persistent</Type>
 }
 
 }

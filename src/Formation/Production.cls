@@ -27,18 +27,26 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
   </Item>
   <Item Name="RemoteBDD" Category="" ClassName="Formation.BO.RemoteBDD" PoolSize="1" Enabled="true" Foreground="false" Comment="base remote via le service JG" LogTraceEvents="true" Schedule="">
-    <Setting Target="Adapter" Name="DSN">Postgre</Setting>
+    <Setting Target="Adapter" Name="DSN">jdbc:postgresql://db:5432/DemoData</Setting>
     <Setting Target="Adapter" Name="Credentials">DemoData</Setting>
-    <Setting Target="Adapter" Name="JDBCClasspath"></Setting>
-    <Setting Target="Adapter" Name="JDBCDriver"></Setting>
-    <Setting Target="Adapter" Name="StayConnected">10</Setting>
+    <Setting Target="Adapter" Name="JDBCClasspath">/tmp/iris/postgresql-42.2.14.jar</Setting>
+    <Setting Target="Adapter" Name="JDBCDriver">org.postgresql.Driver</Setting>
+    <Setting Target="Adapter" Name="StayConnected">-1</Setting>
     <Setting Target="Adapter" Name="JGService">JG</Setting>
+    <Setting Target="Adapter" Name="ConnectionAttributes">insertion par lot n es possible qu'jdbc et pas en odbc</Setting>
   </Item>
   <Item Name="JG" Category="" ClassName="EnsLib.JavaGateway.Service" PoolSize="1" Enabled="true" Foreground="false" Comment="Java Geteway utilisé par l&apos;operation RemoteBDD" LogTraceEvents="false" Schedule="">
   </Item>
   <Item Name="LocalToRemote" Category="" ClassName="Formation.BP.LocalToRemote" PoolSize="1" Enabled="true" Foreground="false" Comment="Traitement de Recuperation via une requete sql depuis la base locale et d&apos;insertion dans la base remote" LogTraceEvents="true" Schedule="">
   </Item>
-  <Item Name="LocalToRemoteLot" Category="" ClassName="Formation.BP.LocalToRemoteLot" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="LocalToRemoteLot" Category="" ClassName="Formation.BP.LocalToRemoteLot" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  </Item>
+  <Item Name="RestInputToLocalBDD" Category="" ClassName="Formation.BS.RestInputToLocalBDD" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">LocalBDD</Setting>
+  </Item>
+  <Item Name="ScheduleTask" Category="" ClassName="Formation.BS.ScheduleTask" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">LocalToRemote</Setting>
+    <Setting Target="Adapter" Name="CallInterval">60</Setting>
   </Item>
 </Production>
 }

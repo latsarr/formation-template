@@ -43,7 +43,7 @@ Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Ou
 	
 	try
 	{
-	set tselectAll = "SELECT * FROM Formation.Table.Formation"
+	set tselectAll = "SELECT * FROM Formation_Table.Formation"
 	SET tStatement = ##class(%SQL.Statement).%New()
     SET qStatus = tStatement.%Prepare(tselectAll)
 	SET rset = tStatement.%Execute()

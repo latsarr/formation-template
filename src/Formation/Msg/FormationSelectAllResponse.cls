@@ -1,4 +1,4 @@
-Class Formation.Msg.FormationSelectAllResponse Extends Ens.Request
+Class Formation.Msg.FormationSelectAllResponse Extends Ens.Response
 {
 
 // renvoie un status boolean
