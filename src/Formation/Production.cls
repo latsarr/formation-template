@@ -36,7 +36,9 @@ XData ProductionDefinition
   </Item>
   <Item Name="JG" Category="" ClassName="EnsLib.JavaGateway.Service" PoolSize="1" Enabled="true" Foreground="false" Comment="Java Geteway utilisé par l&apos;operation RemoteBDD" LogTraceEvents="false" Schedule="">
   </Item>
-  <Item Name="LocalToRemote" Category="" ClassName="Formation.BP.LocalToRemote" PoolSize="1" Enabled="true" Foreground="false" Comment="Traitement de Recuperation via une requete sql depuis la base locale et d&apos;insertion dans la base remote" LogTraceEvents="false" Schedule="">
+  <Item Name="LocalToRemote" Category="" ClassName="Formation.BP.LocalToRemote" PoolSize="1" Enabled="true" Foreground="false" Comment="Traitement de Recuperation via une requete sql depuis la base locale et d&apos;insertion dans la base remote" LogTraceEvents="true" Schedule="">
+  </Item>
+  <Item Name="LocalToRemoteLot" Category="" ClassName="Formation.BP.LocalToRemoteLot" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
 </Production>
 }

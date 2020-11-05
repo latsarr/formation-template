@@ -34,6 +34,66 @@ Method InsertRemoteBDD(pRequest As Formation.Msg.FormationInsertRequest, Output 
 	Quit tStatus
 }
 
+Method InsertLotToRemoteBDD(pRequest As Formation.Msg.FormationInsertAllRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
+{
+	set tStatus = $$$OK
+	
+	try{
+					
+		set nbLignes = 0
+		set pResponse = ##class(Formation.Msg.FormationSelectAllResponse).%New()
+		
+		set SqlInsertLot = "INSERT into public.formation (id, nom, salle) VALUES(?, ?, ?)"
+
+		$$$LOGINFO(SqlInsertLot)
+		
+		set batch = 10
+				
+		set end =""
+		set i=1
+		while i<pRequest.ListOfAllObjFormation.Count(){
+			
+			set param = ""
+			
+			for k=1:1:batch {
+				$$$LOGINFO("Affiche i="_i_" Affiche k="_k)	
+
+				set param(k,1) = i
+				set param(k,1,"SqlType")=$$$SqlInteger
+
+				set param(k,2) = pRequest.ListOfAllObjFormation.GetAt(i).Nom
+				set param(k,2,"SqlType")=$$$SqlVarchar
+			
+				set param(k,3) = pRequest.ListOfAllObjFormation.GetAt(i).Salle
+				set param(k,3,"SqlType")=$$$SqlVarchar
+				/// Nombre de parametres
+				set param(k) = 3
+
+				set i = i + 1
+				q:(i=pRequest.ListOfAllObjFormation.Count())
+							
+				}	
+		     
+			set param = k
+			
+		$$$ThrowOnError(..Adapter.ExecuteUpdateBatchParamArray(.nrows,SqlInsertLot,.param))
+			// un . referencement et .. this
+
+			//$$$LOGINFO(sc)	
+
+			k param
+				
+		}
+		
+	}
+	catch exp
+	{
+		Set tStatus = exp.AsStatus()
+	}
+
+	Quit tStatus
+}
+
 Method SelectAllRemoteBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
 {
 	// initialisation à OK si erreur autre chase dans le catch
@@ -105,6 +165,9 @@ XData MessageMap
 	</MapItem>
 		<MapItem MessageType="Ens.StringRequest"> 
 		<Method>SelectByNameRemoteBDD</Method>
+	</MapItem>
+			<MapItem MessageType="Formation.Msg.FormationInsertAllRequest"> 
+		<Method>InsertLotToRemoteBDD</Method>
 	</MapItem>
 </MapItems>
 }

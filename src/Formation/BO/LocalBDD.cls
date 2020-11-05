@@ -81,9 +81,11 @@ Method SelectByNameLocalBDD(pRequest As Formation.Msg.FormationSelectByNameReque
 	
 	set pResponse.ListeFormation = ##class(%Library.ListOfObjects).%New()
 	
+	
 	try
 	{
-	set tselectByName= "SELECT * FROM Formation_Table.Formation where Name='formation3'"
+		// faille de securite (car le parametre concater va permettre d'injecter autre chose comme un drop) --> a optimiser
+	set tselectByName= "SELECT * FROM Formation_Table.Formation where Name='"_pRequest.Nom_"'"
 	SET tStatement = ##class(%SQL.Statement).%New()
     SET qStatus = tStatement.%Prepare(tselectByName)
 	SET rset = tStatement.%Execute()
