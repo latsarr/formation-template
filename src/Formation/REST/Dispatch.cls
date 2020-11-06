@@ -109,8 +109,10 @@ ClassMethod exportbyname(name As %String) As %Status
         set tMsg.Nom = name
         /// envoi du message vers BS tBsName (recup processus dans la prod)
         $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
-        // envoi le message dans le service (donc dans la production), tService est l'instance du service dans la prod
+        // envoi le message dans le BS RestInputToLocalBDD via la methode FromLocalToremoteBDD (donc dans la production ), tService est l'instance du service dans la prod
         $$$ThrowOnError(tService.FromLocalToremoteBDD(tMsg,.output))
+         // envoi le message dans le service (donc dans la production), tService est l'instance du service dans la prod
+        //$$$ThrowOnError(tService.FromLocalToremoteBDDByLot(tMsg,.output))
 
   } Catch ex {
       set tSc = ex.AsStatus()

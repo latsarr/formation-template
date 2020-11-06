@@ -1,4 +1,5 @@
-/// Construction d'object à utiliser dans les messgae. Il herite de methode pertant projection (affichage) en xml
+/// Construction d'object à utiliser dans les messgae. Il herite de methode %XML.Adaptor permettant projection (affichage) en xml dans le portal management
+/// %SerialObject sert a purger l'objet lorsque le message est purge
 Class Formation.Obj.Formation Extends (%SerialObject, %XML.Adaptor)
 {
 

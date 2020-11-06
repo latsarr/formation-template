@@ -3,6 +3,7 @@ Include EnsSQLTypes
 Class Formation.BO.RemoteBDD Extends Ens.BusinessOperation
 {
 
+/// BO rest sert de publication des api
 Parameter ADAPTER = "Grongier.SQL.OutboundAdapter";
 
 Property Adapter As Grongier.SQL.OutboundAdapter;
