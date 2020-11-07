@@ -12,7 +12,7 @@ Parameter INVOCATION = "Queue";
 Method InsertRemoteBDD(pRequest As Formation.Msg.FormationInsertRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
 {
 	set tStatus = $$$OK
-	
+	$$$LOGINFO("Inserer l'objet message unitairement dans la base remote")
 	try{
 /// creation de la reponse
 		set pResponse = ##class(Formation.Msg.FormationInsertResponse).%New()
@@ -36,6 +36,7 @@ Method InsertRemoteBDD(pRequest As Formation.Msg.FormationInsertRequest, Output 
 
 Method InsertLotToRemoteBDD(pRequest As Formation.Msg.FormationInsertAllRequest, Output pResponse As Formation.Msg.FormationInsertAllResponse) As %Status
 {
+	$$$LOGINFO("Inserer les objets message par lot dans la base remote")
 	set tStatus = $$$OK
 	
 	try{

@@ -11,7 +11,7 @@ Method InsertLocalBDD(pRequest As Formation.Msg.FormationInsertRequest, Output p
 {
 	// convention de nommage le t pour variable temporaire, p parametre
 	set tStatus = $$$OK 
-	
+	$$$LOGINFO("Inserer l'objet message unitairement dans la base locale")
 	try{
 		set pResponse = ##class(Formation.Msg.FormationInsertResponse).%New() // ## synthxe pour objectscript pour appeler une classe
         
@@ -36,6 +36,7 @@ Method InsertLocalBDD(pRequest As Formation.Msg.FormationInsertRequest, Output p
 Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
 {
 	// initialisation à OK si erreur autre chase dans le catch
+	$$$LOGINFO("recuperer toute la liste des objets message depuis la base locale")
 	set tStatus = $$$OK
 	set pResponse = ##class(Formation.Msg.FormationSelectAllResponse).%New() // ## synthxe pour objectscript pour appeler une classe
 	
@@ -75,6 +76,8 @@ Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Ou
 Method SelectByNameLocalBDD(pRequest As Formation.Msg.FormationSelectByNameRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
 {
 	// initialisation à OK si erreur autre chase dans le catch
+	$$$LOGINFO("recuperer la liste des objets message avec filtre par le nom depuis la base locale")
+
 	set tStatus = $$$OK
 
 	set pResponse = ##class(Formation.Msg.FormationSelectByNameResponse).%New() // ## synthxe pour objectscript pour appeler une classe
