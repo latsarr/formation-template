@@ -18,7 +18,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
   <!-- import avec appel verbe get-->
-  <Route Url="/import" Method="post" Call="importobjet" />
+  <Route Url="/importlocal" Method="post" Call="importLocalObjet" />
     <!-- export avec appel verbe get -->
   <Route Url="/export" Method="get" Call="exportAllFromLocal" />
     <Route Url="/export/:name" Method="get" Call="exportByNameFromLocal" />
@@ -28,7 +28,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 
 /// Get this spec
 /// // import vers LocalBDD
-ClassMethod importobjet() As %Status
+ClassMethod importLocalObjet() As %Status
 {
   set tSc = $$$OK
 
