@@ -12,8 +12,7 @@
       "ns": "IRISAPP",
       "username": "SuperUser",
       "password": "SYS",
-      "host": "localhost",
-      "port": 52775,
+      "docker-compose":{"service":"iris","file": "docker-compose.yml","internalPort": 52773},
       "active": true,
     },
     "intersystems.servers": {

@@ -4,7 +4,7 @@
 Class Formation.RM.CSV.Batch Extends (%Library.Persistent, EnsLib.RecordMap.SimpleBatch)
 {
 
-Parameter XMLNAME = "Formation_RM_CSV_Batch";
+Parameter XMLNAME = "Formation_RMTest_CSVTest_BatchTest";
 
 Parameter RECORDMAPGENERATED = 1;
 
@@ -25,7 +25,7 @@ Trigger OnDelete [ Event = DELETE ]
 	Set %ok = ..deleteRecords({ID})
 }
 
-Parameter XMLTYPE = "Formation_RM_CSV_Batch";
+Parameter XMLTYPE = "Formation_RMTest_CSVTest_BatchTest";
 
 Storage Default
 {

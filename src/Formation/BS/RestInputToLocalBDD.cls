@@ -9,6 +9,8 @@ Method OnProcessInput(pDocIn As %RegisteredObject, Output pDocOut As %Registered
 {
     set status = $$$OK
 
+    //$$$LOGINFO("Envoi du message dans la production")
+
     try {
 
         for iTarget=1:1:$L(..TargetConfigNames, ",") {
@@ -23,7 +25,12 @@ Method OnProcessInput(pDocIn As %RegisteredObject, Output pDocOut As %Registered
     Quit status
 }
 
-Method ExportFromLocalBDD(pRequest As Formation.Msg.FormationSelectByNameRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
+Method ExportAllFromLocalBDD(pRequest As Formation.Msg.FormationSelectByNameRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
+{
+    Quit ..OnProcessInput(pRequest,.pResponse)
+}
+
+Method ExportByNameFromLocalBDD(pRequest As Formation.Msg.FormationSelectByNameRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
 {
     Quit ..OnProcessInput(pRequest,.pResponse)
 }
@@ -32,7 +39,8 @@ Method FromLocalToremoteBDD(pRequest As Formation.Msg.FormationSelectByNameReque
 {
         set status = $$$OK
         // appel du BP LocalToRemote en dur avec le message
-		$$$ThrowOnError(..SendRequestSync("LocalToRemote",pRequest,.pResponse))
+        set tBpNameEnDur = "LocalToRemote"
+		$$$ThrowOnError(..SendRequestSync(tBpNameEnDur,pRequest,.pResponse))
         Quit status
 }
 

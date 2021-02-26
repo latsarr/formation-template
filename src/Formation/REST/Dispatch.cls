@@ -18,16 +18,17 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
   <!-- import avec appel verbe get-->
-  <Route Url="/import" Method="post" Call="import" />
+  <Route Url="/import" Method="post" Call="importobjet" />
     <!-- export avec appel verbe get -->
-  <Route Url="/export" Method="get" Call="export" />
-   <Route Url="/exportbyname/:name" Method="get" Call="exportbyname" />
+  <Route Url="/export" Method="get" Call="exportAllFromLocal" />
+    <Route Url="/export/:name" Method="get" Call="exportByNameFromLocal" />
+   <Route Url="/exportimport/:name" Method="get" Call="exportLocalImportRemoteByname" />
 </Routes>
 }
 
 /// Get this spec
 /// // import vers LocalBDD
-ClassMethod import() As %Status
+ClassMethod importobjet() As %Status
 {
   set tSc = $$$OK
 
@@ -39,7 +40,7 @@ ClassMethod import() As %Status
         
         // permet de lire le contenu Message et convertir en utf8
       set body = $zcvt(%request.Content.Read(),"I","UTF8")
-      /// creation obj dynamique consommant le body
+      /// creation obj dynamique consommant le body json
       set dyna = {}.%FromJSON(body)
       /// construire le messaage json
       set tFormation = ##class(Formation.Obj.Formation).%New()
@@ -49,7 +50,7 @@ ClassMethod import() As %Status
 
       /// envoi du message vers BS tBsName (recup processus dans la prod)
        $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
-      // envoi du message dans le service (donc dans la production), tService est l'instance du service dans la prod
+      // envoi le message dans la production via la methode ProcessInput du BS RestInputToLocalBDD, tService est l'instance du service dans la prod
         $$$ThrowOnError(tService.ProcessInput(tMsg,.output))
 
   } Catch ex {
@@ -61,7 +62,7 @@ ClassMethod import() As %Status
 
 // export avec select depuis LocalBDD
 
-ClassMethod export() As %Status
+ClassMethod exportAllFromLocal() As %Status
 {
   set tSc = $$$OK
 
@@ -71,12 +72,14 @@ ClassMethod export() As %Status
         // Message à inserer
         set tMsg = ##class(Formation.Msg.FormationSelectAllRequest).%New()
         
-      /// envoi du message vers BS tBsName (recup processus dans la prod)
+      /// recuperation du processus du BS tBsName dans la prod
+       //$$$LOGINFO("Recuperation du processuss du BS dans la production")
        $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
-      // envoi le message dans le service (donc dans la production), tService est l'instance du service dans la prod
-        $$$ThrowOnError(tService.ExportFromLocalBDD(tMsg,.output))
-        // initialise la liste dans laquelle on va stocker les objet jsson
+      // envoi le message dans la production via la methode ExportFromLocalBDD du BS RestInputToLocalBDD, tService est l'instance du service dans la prod
+        $$$ThrowOnError(tService.ExportAllFromLocalBDD(tMsg,.output))
+        // initialise la liste dans laquelle on va stocker les objets jsson
         set dyna = []
+
         for i =1:1:output.ListeFormation.Count()
         {
           // init objet json
@@ -87,7 +90,7 @@ ClassMethod export() As %Status
         do dyna.%Push(tdyna)
 
         }
-        // Conversion en json
+        // Conversion et rendement en json
       write dyna.%ToJSON()
 
   } Catch ex {
@@ -97,7 +100,45 @@ ClassMethod export() As %Status
   Quit tSc
 }
 
-ClassMethod exportbyname(name As %String) As %Status
+ClassMethod exportByNameFromLocal() As %Status
+{
+  set tSc = $$$OK
+
+  Try {
+        // BS destinataire du message
+        set tBsName = "RestInputToLocalBDD"
+        // Message à inserer
+        set tMsg = ##class(Formation.Msg.FormationSelectByNameRequest).%New()
+        
+      /// recuperation du processus du BS tBsName dans la prod
+       //$$$LOGINFO("Recuperation du processuss du BS dans la production")
+       $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
+      // envoi le message dans la production via la methode ExportFromLocalBDD du BS RestInputToLocalBDD, tService est l'instance du service dans la prod
+        $$$ThrowOnError(tService.ExportByNameFromLocalBDD(tMsg,.output))
+        // initialise la liste dans laquelle on va stocker les objets jsson
+        set dyna = []
+
+        for i =1:1:output.ListeFormation.Count()
+        {
+          // init objet json
+        set tdyna = {}
+        set tdyna.nom = output.ListeFormation.GetAt(i).Nom
+        set tdyna.salle = output.ListeFormation.GetAt(i).Salle
+        // ajoute de chaque object
+        do dyna.%Push(tdyna)
+
+        }
+        // Conversion et rendement en json
+      write dyna.%ToJSON()
+
+  } Catch ex {
+      set tSc = ex.AsStatus()
+  }
+
+  Quit tSc
+}
+
+ClassMethod exportLocalImportRemoteByname(name As %String) As %Status
 {
   set tSc = $$$OK
 

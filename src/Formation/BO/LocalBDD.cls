@@ -48,7 +48,7 @@ Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Ou
 	SET tStatement = ##class(%SQL.Statement).%New()
     SET qStatus = tStatement.%Prepare(tselectAll)
 	SET rset = tStatement.%Execute()
-	$$$TRACE("Nombre Obj selectionne "_rset.%Next())
+	//$$$TRACE("Nombre Obj selectionne "_rset.%Next())
 	while rset.%Next(){
 /// creation d'objet temporaire à peupler
 	set tFormation = ##class(Formation.Obj.Formation).%New()
@@ -57,13 +57,12 @@ Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Ou
 
 	do pResponse.ListeFormation.Insert(tFormation)
 
-		$$$TRACE("Id "_rset.%Get("ID"))
+	//$$$TRACE("Id "_rset.%Get("ID"))
 
 	}
-		$$$TRACE("Nombre Obj selectionne "_rset.%Next())
+	//$$$TRACE("Nombre Obj selectionne "_rset.%Next())
 
-
-		set pResponse.Status = 1
+	set pResponse.Status = 1
 	}
 	catch exp
 	{
@@ -76,7 +75,7 @@ Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Ou
 Method SelectByNameLocalBDD(pRequest As Formation.Msg.FormationSelectByNameRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
 {
 	// initialisation à OK si erreur autre chase dans le catch
-	$$$LOGINFO("recuperer la liste des objets message avec filtre par le nom depuis la base locale")
+	$$$LOGINFO("recuperer la liste des objets message avec filtre par le nom "_pRequest.Nom_" depuis la base locale")
 
 	set tStatus = $$$OK
 
@@ -100,8 +99,8 @@ Method SelectByNameLocalBDD(pRequest As Formation.Msg.FormationSelectByNameReque
 
 	do pResponse.ListeFormation.Insert(tFormation)
 
-		$$$TRACE("Id "_rset.%Get("ID"))
-		$$$TRACE("Name "_rset.%Get("Name"))
+	//$$$TRACE("Id "_rset.%Get("ID"))
+	//$$$TRACE("Name "_rset.%Get("Name"))
 	}
 
 		set pResponse.Status = 1

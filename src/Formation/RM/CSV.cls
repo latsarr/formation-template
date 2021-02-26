@@ -4,7 +4,7 @@
 Class Formation.RM.CSV Extends EnsLib.RecordMap.RecordMap
 {
 
-Parameter OBJECTNAME = "Formation.RM.CSV.Record";
+Parameter OBJECTNAME = "Formation.RM.CSV1.Record1";
 
 /// Method to retrieve a record from a stream or device. This method will be generated based on the
 /// structure of the RecordMap. For testing purposes, a file name may be passed in the pStream argument.
@@ -132,8 +132,8 @@ ClassMethod PutRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 ClassMethod GetGeneratedClasses(Output pClasses As %String) As %Status
 {
 	Kill pClasses
-	Set pClasses("Formation.RM.CSV.Batch")=""
-	Set pClasses("Formation.RM.CSV.Record")=""
+	Set pClasses("Formation.RM.CSV1.Batch1")=""
+	Set pClasses("Formation.RM.CSV1.Record1")=""
 	Set pClasses($classname())=""
 	Quit $$$OK
 }
@@ -150,7 +150,7 @@ ClassMethod getType() As EnsLib.RecordMap.Model.DataType.RecordType [ CodeMode =
 
 XData RecordMap [ XMLNamespace = "http://www.intersystems.com/Ensemble/RecordMap" ]
 {
-<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="Formation.RM.CSV" type="delimited" char_encoding="UTF-8" targetClassname="Formation.RM.CSV.Record" batchClass="Formation.RM.CSV.Batch" complexBatchManaged="0" padFromLeft="0" recordTerminator="\x0d\x0a" allowEarlyTerminator="0">
+<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="Formation.RM.CSV1" type="delimited" char_encoding="UTF-8" targetClassname="Formation.RM.CSV.Record" batchClass="Formation.RM.CSV.Batch" complexBatchManaged="0" padFromLeft="0" recordTerminator="\x0d\x0a" allowEarlyTerminator="0">
   <Separators>
     <Separator>;</Separator>
   </Separators>
