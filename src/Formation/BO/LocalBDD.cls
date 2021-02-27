@@ -36,7 +36,7 @@ Method InsertLocalBDD(pRequest As Formation.Msg.FormationInsertRequest, Output p
 Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
 {
 	// initialisation à OK si erreur autre chase dans le catch
-	$$$LOGINFO("recuperer toute la liste des objets message depuis la base locale")
+	//$$$LOGINFO("recuperer toute la liste des objets message depuis la base locale")
 	set tStatus = $$$OK
 	set pResponse = ##class(Formation.Msg.FormationSelectAllResponse).%New() // ## synthxe pour objectscript pour appeler une classe
 	
@@ -48,20 +48,21 @@ Method SelectAllLocalBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Ou
 	SET tStatement = ##class(%SQL.Statement).%New()
     SET qStatus = tStatement.%Prepare(tselectAll)
 	SET rset = tStatement.%Execute()
-	//$$$TRACE("Nombre Obj selectionne "_rset.%Next())
-	while rset.%Next(){
-/// creation d'objet temporaire à peupler
+	Set objCount = 0
+	/// creation d'objet temporaire à peupler
 	set tFormation = ##class(Formation.Obj.Formation).%New()
+	while rset.%Next(){
+
+	Set objCount = objCount + 1
 	set tFormation.Nom = rset.%Get("Name")
 	set tFormation.Salle = rset.%Get("Salle")
-
+	
 	do pResponse.ListeFormation.Insert(tFormation)
 
 	//$$$TRACE("Id "_rset.%Get("ID"))
 
 	}
-	//$$$TRACE("Nombre Obj selectionne "_rset.%Next())
-
+	$$$TRACE("Nombre Obj selectionne : "_objCount)
 	set pResponse.Status = 1
 	}
 	catch exp

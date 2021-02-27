@@ -15,6 +15,7 @@ Method InsertRemoteBDD(pRequest As Formation.Msg.FormationInsertRequest, Output 
 	set tStatus = $$$OK
 	
 	try{
+		$$$LOGINFO("Insertion : "_pRequest.Formation.Nom)
 /// creation de la reponse
 		set pResponse = ##class(Formation.Msg.FormationInsertResponse).%New()
 /// creation de la request
@@ -96,28 +97,38 @@ Method InsertLotToRemoteBDD(pRequest As Formation.Msg.FormationInsertAllRequest,
 	Quit tStatus
 }
 
-Method SelectAllRemoteBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
+/// Les methodes suivantes on été créées ici pour des raisons de pb de connexion RemoteDBB
+Method SelectAllRemotedBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Output pResponse As Formation.Msg.FormationSelectAllResponse) As %Status
 {
+	
 	// initialisation à OK si erreur autre chase dans le catch
+	//$$$LOGINFO("recuperer toute la liste des objets message depuis la base Remote")
 	set tStatus = $$$OK
-
+	set pResponse = ##class(Formation.Msg.FormationSelectAllResponse).%New() // ## synthxe pour objectscript pour appeler une classe
+	
+	set pResponse.ListeFormation = ##class(%Library.ListOfObjects).%New()
+	
 	try
 	{
-/// creation de la reponse
-	set pResponse = ##class(Formation.Msg.FormationSelectAllResponse).%New()
-/// creation de la request
-  //ReTypage de l'adaptateur
-   //#Dim Adapter As EnsLib.SQL.OutboundAdapter
-   // stockage des resultats du select dans tResult et le $$$ThrowOnError permet de capter les erreurs
-   set tSelectAllSql = "select * from public.formation"
-   $$$ThrowOnError(..Adapter.ExecuteQueryBatch(.tResult,tSelectAllSql,50))
-/// parcours des résultats avec la boucle while
-   while tResult.%Next()
-   {
-	   ///$$$TRACE("Id bdd "_tResult.GetData(1))
-   }
+	set tselectAll = "SELECT * FROM public.formation"
+	SET tStatement = ##class(%SQL.Statement).%New()
+    SET qStatus = tStatement.%Prepare(tselectAll)
+	SET rset = tStatement.%Execute()
+	Set objCount = 0
+	/// creation d'objet temporaire à peupler
+	set tFormation = ##class(Formation.Obj.Formation).%New()
+	while rset.%Next(){
+	Set objCount = objCount + 1
+	set tFormation.Nom = rset.%Get("nom")
+	set tFormation.Salle = rset.%Get("salle")
+	
+	do pResponse.ListeFormation.Insert(tFormation)
 
-		set pResponse.Status = 1
+	//$$$TRACE("Id "_rset.%Get("ID"))
+
+	}
+	$$$TRACE("Nombre Obj selectionne : "_objCount)
+	set pResponse.Status = 1
 	}
 	catch exp
 	{
@@ -163,7 +174,7 @@ XData MessageMap
 		<Method>InsertRemoteBDD</Method>
 	</MapItem>
 		<MapItem MessageType="Formation.Msg.FormationSelectAllRequest"> 
-		<Method>SelectAllRemoteBDD</Method>
+		<Method>SelectAllRemotedBDD</Method>
 	</MapItem>
 		<MapItem MessageType="Ens.StringRequest"> 
 		<Method>SelectByNameRemoteBDD</Method>

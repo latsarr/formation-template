@@ -25,4 +25,9 @@ Method OnProcessInput(pDocIn As %RegisteredObject, Output pDocOut As %Registered
     Quit status
 }
 
+Method ExportAllFromRemoteBDD(pRequest As Formation.Msg.FormationSelectAllRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
+{
+    Quit ..OnProcessInput(pRequest,.pResponse)
+}
+
 }
