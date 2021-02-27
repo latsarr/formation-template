@@ -134,7 +134,7 @@ ClassMethod exportAllFromLocal() As %Status
   Quit tSc
 }
 
-ClassMethod exportByNameFromLocal() As %Status
+ClassMethod exportByNameFromLocal(name As %String) As %Status
 {
   set tSc = $$$OK
 
@@ -143,7 +143,7 @@ ClassMethod exportByNameFromLocal() As %Status
         set tBsName = "RestInputToLocalBDD"
         // Message à inserer
         set tMsg = ##class(Formation.Msg.FormationSelectByNameRequest).%New()
-        
+        set tMsg.Nom = name
       /// recuperation du processus du BS tBsName dans la prod
        //$$$LOGINFO("Recuperation du processuss du BS dans la production")
        $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
