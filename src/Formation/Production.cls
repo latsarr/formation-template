@@ -48,6 +48,11 @@ XData ProductionDefinition
     <Setting Target="Host" Name="TargetConfigNames">LocalToRemote</Setting>
     <Setting Target="Adapter" Name="CallInterval">60</Setting>
   </Item>
+  <Item Name="RestInputToRemoteBDD" Category="" ClassName="Formation.BS.RestInputToRemoteBDD" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">RemoteBDD</Setting>
+  </Item>
+  <Item Name="AllLocalToRemoteLot" Category="" ClassName="Formation.BP.AllLocalToRemoteLot" PoolSize="1" Enabled="true" Foreground="false" Comment="Tout sélectionner depuis local et tout insérer dans remote" LogTraceEvents="false" Schedule="">
+  </Item>
 </Production>
 }
 
