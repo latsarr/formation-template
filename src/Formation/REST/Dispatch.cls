@@ -19,13 +19,13 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Routes>
   <!-- import avec appel verbe get-->
   <Route Url="/importlocal" Method="post" Call="importLocalObjet" />
-   <Route Url="/importremote" Method="post" Call="importRemoteObjet" />
-    <!-- export avec appel verbe get -->
+  <Route Url="/importremote" Method="post" Call="importRemoteObjet" />
+  <!-- export avec appel verbe get -->
   <Route Url="/exportlo" Method="get" Call="exportAllFromLocal" />
   <Route Url="/exportre" Method="get" Call="exportAllFromRemote" />
-    <Route Url="/exportlo/:name" Method="get" Call="exportByNameFromLocal" />
-   <Route Url="/exportimport/:name" Method="get" Call="exportLocalImportRemoteByname" />
-   <Route Url="/exportimport" Method="get" Call="exportLocalImportRemoteAll" />
+  <Route Url="/exportlo/:name" Method="get" Call="exportByNameFromLocal" />
+  <Route Url="/exportimport/:name" Method="get" Call="exportLocalImportRemoteByname" />
+  <Route Url="/exportimport" Method="get" Call="exportLocalImportRemoteAll" />
 </Routes>
 }
 
@@ -246,7 +246,7 @@ ClassMethod exportLocalImportRemoteAll() As %Status
         // BS destinataire du message
         set tBsName = "RestInputToLocalBDD"
         // Message à inserer
-        set tMsg = ##class(Formation.Msg.FormationSelectByNameRequest).%New()
+        set tMsg = ##class(Formation.Msg.FormationSelectAllRequest).%New()
         ///set tMsg.Nom = name
         /// envoi du message vers BS tBsName (recup processus dans la prod)
         $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))

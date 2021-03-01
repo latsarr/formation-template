@@ -46,9 +46,9 @@ Method FromLocalToremoteBDD(pRequest As Formation.Msg.FormationSelectByNameReque
 
 Method AllFromLocalToremoteBDD(pRequest As Formation.Msg.FormationSelectByNameRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
 {
-        set status = $$$OK
+               set status = $$$OK
         // appel du BP LocalToRemote en dur avec le message
-        set tBpNameEnDur = "LocalToRemote"
+        set tBpNameEnDur = "AllLocalToRemoteLot"
 		$$$ThrowOnError(..SendRequestSync(tBpNameEnDur,pRequest,.pResponse))
         Quit status
 }
