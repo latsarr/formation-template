@@ -25,6 +25,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
   <Route Url="/exportre" Method="get" Call="exportAllFromRemote" />
     <Route Url="/exportlo/:name" Method="get" Call="exportByNameFromLocal" />
    <Route Url="/exportimport/:name" Method="get" Call="exportLocalImportRemoteByname" />
+   <Route Url="/exportimport" Method="get" Call="exportLocalImportRemoteAll" />
 </Routes>
 }
 
@@ -227,6 +228,30 @@ ClassMethod exportLocalImportRemoteByname(name As %String) As %Status
         $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
         // envoi le message dans le BS RestInputToLocalBDD via la methode FromLocalToremoteBDD (donc dans la production ), tService est l'instance du service dans la prod
         $$$ThrowOnError(tService.FromLocalToremoteBDD(tMsg,.output))
+         // envoi le message dans le service (donc dans la production), tService est l'instance du service dans la prod
+        //$$$ThrowOnError(tService.FromLocalToremoteBDDByLot(tMsg,.output))
+
+  } Catch ex {
+      set tSc = ex.AsStatus()
+  }
+
+  Quit tSc
+}
+
+ClassMethod exportLocalImportRemoteAll() As %Status
+{
+  set tSc = $$$OK
+
+  Try {
+        // BS destinataire du message
+        set tBsName = "RestInputToLocalBDD"
+        // Message à inserer
+        set tMsg = ##class(Formation.Msg.FormationSelectByNameRequest).%New()
+        ///set tMsg.Nom = name
+        /// envoi du message vers BS tBsName (recup processus dans la prod)
+        $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
+        // envoi le message dans le BS RestInputToLocalBDD via la methode FromLocalToremoteBDD (donc dans la production ), tService est l'instance du service dans la prod
+        $$$ThrowOnError(tService.AllFromLocalToremoteBDD(tMsg,.output))
          // envoi le message dans le service (donc dans la production), tService est l'instance du service dans la prod
         //$$$ThrowOnError(tService.FromLocalToremoteBDDByLot(tMsg,.output))
 

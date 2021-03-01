@@ -1,4 +1,3 @@
-/// 
 Class Formation.BP.LocalToRemote Extends Ens.BusinessProcessBPL
 {
 

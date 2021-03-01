@@ -116,8 +116,9 @@ Method SelectAllRemotedBDD(pRequest As Formation.Msg.FormationSelectAllRequest, 
 	SET rset = tStatement.%Execute()
 	Set objCount = 0
 	/// creation d'objet temporaire à peupler
-	set tFormation = ##class(Formation.Obj.Formation).%New()
+
 	while rset.%Next(){
+	set tFormation = ##class(Formation.Obj.Formation).%New()
 	Set objCount = objCount + 1
 	set tFormation.Nom = rset.%Get("nom")
 	set tFormation.Salle = rset.%Get("salle")
