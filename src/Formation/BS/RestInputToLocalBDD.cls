@@ -53,13 +53,4 @@ Method AllFromLocalToremoteBDD(pRequest As Formation.Msg.FormationSelectByNameRe
         Quit status
 }
 
-/*
-Method FromLocalToremoteBDDByLot(pRequest As Formation.Msg.FormationSelectByNameRequest, Output pResponse As Formation.Msg.FormationSelectByNameResponse) As %Status
-{
-        set status = $$$OK
-        // appel du BP LocalToRemoteLot en dur avec le message
-		$$$ThrowOnError(..SendRequestSync("LocalToRemoteLot",pRequest,.pResponse))
-        Quit status
-}
-*/
 }

@@ -63,39 +63,6 @@ ClassMethod importLocalObjet() As %Status
   Quit tSc
 }
 
-/// // import vers Remote
-ClassMethod importRemoteObjet() As %Status
-{
-  set tSc = $$$OK
-
-  Try {
-        // BS destinataire du message
-        set tBsName = "RestInputToRemoteBDD"
-        // Message à inserer
-        set tMsg = ##class(Formation.Msg.FormationInsertRequest).%New()
-        
-        // permet de lire le contenu Message et convertir en utf8
-      set body = $zcvt(%request.Content.Read(),"I","UTF8")
-      /// creation obj dynamique consommant le body json
-      set dyna = {}.%FromJSON(body)
-      /// construire le messaage json
-      set tFormation = ##class(Formation.Obj.Formation).%New()
-      set tFormation.Nom = dyna.nom
-      set tFormation.Salle = dyna.salle
-      set tMsg.Formation = tFormation
-
-      /// envoi du message vers BS tBsName (recup processus dans la prod)
-       $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
-      // envoi le message dans la production via la methode ProcessInput du BS RestInputToLocalBDD, tService est l'instance du service dans la prod
-        $$$ThrowOnError(tService.ProcessInput(tMsg,.output))
-
-  } Catch ex {
-      set tSc = ex.AsStatus()
-  }
-
-  Quit tSc
-}
-
 // export avec select depuis LocalBDD
 
 ClassMethod exportAllFromLocal() As %Status
@@ -166,6 +133,39 @@ ClassMethod exportByNameFromLocal(name As %String) As %Status
         }
         // Conversion et rendement en json
       write dyna.%ToJSON()
+
+  } Catch ex {
+      set tSc = ex.AsStatus()
+  }
+
+  Quit tSc
+}
+
+/// // import vers Remote
+ClassMethod importRemoteObjet() As %Status
+{
+  set tSc = $$$OK
+
+  Try {
+        // BS destinataire du message
+        set tBsName = "RestInputToRemoteBDD"
+        // Message à inserer
+        set tMsg = ##class(Formation.Msg.FormationInsertRequest).%New()
+        
+        // permet de lire le contenu Message et convertir en utf8
+      set body = $zcvt(%request.Content.Read(),"I","UTF8")
+      /// creation obj dynamique consommant le body json
+      set dyna = {}.%FromJSON(body)
+      /// construire le messaage json
+      set tFormation = ##class(Formation.Obj.Formation).%New()
+      set tFormation.Nom = dyna.nom
+      set tFormation.Salle = dyna.salle
+      set tMsg.Formation = tFormation
+
+      /// envoi du message vers BS tBsName (recup processus dans la prod)
+       $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))
+      // envoi le message dans la production via la methode ProcessInput du BS RestInputToLocalBDD, tService est l'instance du service dans la prod
+        $$$ThrowOnError(tService.ProcessInput(tMsg,.output))
 
   } Catch ex {
       set tSc = ex.AsStatus()
