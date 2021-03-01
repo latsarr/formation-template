@@ -10,7 +10,7 @@ Storage Default
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
-<process language='objectscript' request='Formation.Msg.FormationSelectByNameRequest' response='Formation.Msg.FormationSelectByNameResponse' height='2000' width='2000' >
+<process language='objectscript' request='Formation.Msg.FormationSelectAllRequest' response='Formation.Msg.FormationSelectAllResponse' height='2000' width='2000' >
 <context>
 <property name='key' type='%String' instantiate='0' >
 <parameters>
@@ -21,10 +21,8 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </context>
 <sequence xend='200' yend='450' >
 <call name='appel local bdd' target='LocalBDD' async='0' xpos='200' ypos='250' >
-<request type='Formation.Msg.FormationSelectByNameRequest' >
-<assign property="callrequest.Nom" value="request.Nom" action="set" />
-</request>
-<response type='Formation.Msg.FormationSelectByNameResponse' >
+<request type='Formation.Msg.FormationSelectAllRequest' />
+<response type='Formation.Msg.FormationSelectAllResponse' >
 <assign property="context.tListFormation" value="callresponse.ListeFormation" action="set" />
 </response>
 </call>

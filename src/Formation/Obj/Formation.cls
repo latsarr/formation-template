@@ -5,8 +5,6 @@ Class Formation.Obj.Formation Extends (%SerialObject, %XML.Adaptor)
 
 Property Nom As %String;
 
-Property Prenom As %String;
-
 Property Salle As %String;
 
 Storage Default
