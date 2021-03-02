@@ -17,15 +17,14 @@ Parameter HandleCorsRequest = 1;
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
-  <!-- import avec appel verbe get-->
+  <!-- export avec appel verbe get et import avec appel verbe post -->
   <Route Url="/importlocal" Method="post" Call="importLocalObjet" />
-  <Route Url="/importremote" Method="post" Call="importRemoteObjet" />
-  <!-- export avec appel verbe get -->
   <Route Url="/exportlo" Method="get" Call="exportAllFromLocal" />
-  <Route Url="/exportre" Method="get" Call="exportAllFromRemote" />
   <Route Url="/exportlo/:name" Method="get" Call="exportByNameFromLocal" />
-  <Route Url="/exportimport/:name" Method="get" Call="exportLocalImportRemoteByname" />
+  <Route Url="/importremote" Method="post" Call="importRemoteObjet" />
+  <Route Url="/exportre" Method="get" Call="exportAllFromRemote" />
   <Route Url="/exportimport" Method="get" Call="exportLocalImportRemoteAll" />
+  <Route Url="/exportimport/:name" Method="get" Call="exportLocalImportRemoteByname" />
 </Routes>
 }
 
