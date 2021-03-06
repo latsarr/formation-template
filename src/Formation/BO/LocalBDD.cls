@@ -17,7 +17,6 @@ Method InsertLocalBDD(pRequest As Formation.Msg.FormationInsertRequest, Output p
         
 		set tFormation = ##class(Formation.Table.Formation).%New() // % convention de logic system
         set tFormation.Name = pRequest.Formation.Nom
-		set tFormation.LastName = pRequest.Formation.Prenom
         set tFormation.Salle = pRequest.Formation.Salle
         $$$ThrowOnError(tFormation.%Save())
 		

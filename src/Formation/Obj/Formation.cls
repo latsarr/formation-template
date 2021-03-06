@@ -16,9 +16,6 @@ Storage Default
 <Value name="2">
 <Value>Salle</Value>
 </Value>
-<Value name="3">
-<Value>Prenom</Value>
-</Value>
 </Data>
 <State>FormationState</State>
 <StreamLocation>^Formation.Obj.FormationS</StreamLocation>
